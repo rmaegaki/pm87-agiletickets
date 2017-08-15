@@ -37,7 +37,7 @@ public class CalculadoraDePrecos {
 			}
 
 			if (sessao.getDuracaoEmMinutos() > 60) {
-				preco = preco.add(sessao.getPreco().multiply(BigDecimal.valueOf(0.10)));
+				preco = reajustePrecoIngressoPercentual(0.10, sessao.getPreco(), preco);
 			}
 		} else {
 			// nao aplica aumento para teatro (quem vai é pobretão :-P )
@@ -46,6 +46,7 @@ public class CalculadoraDePrecos {
 
 		return preco.multiply(BigDecimal.valueOf(quantidade));
 	}
+	
    /**
     * @param porcentagem
     * @param precoBase
@@ -56,6 +57,21 @@ public class CalculadoraDePrecos {
 		BigDecimal reajuste = precoBase.multiply(BigDecimal.valueOf(porcentagem));
 
 		precoReajustado = precoBase.add(reajuste);
+
+		return precoReajustado;
+	}
+	
+	/**
+	 * 
+	 * @param porcentagem
+	 * @param precoBase
+	 * @param precoReajustado
+	 * @return
+	 */
+	private static BigDecimal reajustePrecoIngressoPercentual(double porcentagem, BigDecimal precoBase, BigDecimal precoReajustado) {
+		//precoReajustado.add(precoBase.multiply(BigDecimal.valueOf(0.10)));
+		BigDecimal reajuste = precoBase.multiply(BigDecimal.valueOf(porcentagem));
+		precoReajustado = precoReajustado.add(reajuste);
 
 		return precoReajustado;
 	}
