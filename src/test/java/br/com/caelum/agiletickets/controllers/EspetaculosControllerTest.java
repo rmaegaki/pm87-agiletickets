@@ -1,7 +1,12 @@
 package br.com.caelum.agiletickets.controllers;
 
 import java.math.BigDecimal;
+import java.util.List;
 
+import javax.validation.constraints.AssertTrue;
+
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -11,6 +16,7 @@ import org.mockito.Spy;
 import br.com.caelum.agiletickets.domain.Agenda;
 import br.com.caelum.agiletickets.domain.DiretorioDeEstabelecimentos;
 import br.com.caelum.agiletickets.models.Espetaculo;
+import br.com.caelum.agiletickets.models.Periodicidade;
 import br.com.caelum.agiletickets.models.Sessao;
 import br.com.caelum.agiletickets.models.TipoDeEspetaculo;
 import br.com.caelum.vraptor.Result;
@@ -20,7 +26,7 @@ import br.com.caelum.vraptor.validator.ValidationException;
 import br.com.caelum.vraptor.validator.Validator;
 import static org.hamcrest.Matchers.is;
 
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -117,6 +123,63 @@ public class EspetaculosControllerTest {
 		controller.reserva(1234l, 3);
 
 		assertThat(sessao.getIngressosDisponiveis(), is(2));
+	}
+	
+	@Test
+	public void temporadaInicioIgualFimDiaria() {
+		Espetaculo espetaculo = new Espetaculo();
+		espetaculo.setTipo(TipoDeEspetaculo.TEATRO);
+
+		Sessao sessao = new Sessao();
+		sessao.setPreco(new BigDecimal("10.00"));
+		sessao.setTotalIngressos(5);
+		sessao.setEspetaculo(espetaculo);
+		
+		LocalDate diaInicio = new LocalDate();
+		LocalDate diaFim = diaInicio;
+		LocalTime horario = new LocalTime();
+		
+		List<Sessao> sessoes = espetaculo.criaSessoes(diaInicio, diaFim, horario,  Periodicidade.DIARIA);
+		
+		assertEquals(1, sessoes.size());
+	}
+	
+	@Test
+	public void temporadaInicioIgualFimSemanal() {
+		Espetaculo espetaculo = new Espetaculo();
+		espetaculo.setTipo(TipoDeEspetaculo.TEATRO);
+
+		Sessao sessao = new Sessao();
+		sessao.setPreco(new BigDecimal("10.00"));
+		sessao.setTotalIngressos(5);
+		sessao.setEspetaculo(espetaculo);
+		
+		LocalDate diaInicio = new LocalDate();
+		LocalDate diaFim = diaInicio;
+		LocalTime horario = new LocalTime();
+		
+		List<Sessao> sessoes = espetaculo.criaSessoes(diaInicio, diaFim, horario,  Periodicidade.SEMANAL);
+		
+		assertEquals(1, sessoes.size());
+	}
+	
+	@Test
+	public void temporadaInicioFimDiario() {
+		Espetaculo espetaculo = new Espetaculo();
+		espetaculo.setTipo(TipoDeEspetaculo.TEATRO);
+
+		Sessao sessao = new Sessao();
+		sessao.setPreco(new BigDecimal("10.00"));
+		sessao.setTotalIngressos(5);
+		sessao.setEspetaculo(espetaculo);
+		
+		LocalDate diaInicio = new LocalDate();
+		LocalDate diaFim = diaInicio;
+		LocalTime horario = new LocalTime();
+		
+		List<Sessao> sessoes = espetaculo.criaSessoes(diaInicio, diaFim, horario,  Periodicidade.DIARIA);
+		
+		assertEquals(1, sessoes.size());
 	}
 
 }

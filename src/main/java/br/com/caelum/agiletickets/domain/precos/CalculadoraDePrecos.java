@@ -69,7 +69,6 @@ public class CalculadoraDePrecos {
 	 * @return
 	 */
 	private static BigDecimal reajustePrecoIngressoPercentual(double porcentagem, BigDecimal precoBase, BigDecimal precoReajustado) {
-		//precoReajustado.add(precoBase.multiply(BigDecimal.valueOf(0.10)));
 		BigDecimal reajuste = precoBase.multiply(BigDecimal.valueOf(porcentagem));
 		precoReajustado = precoReajustado.add(reajuste);
 
