@@ -124,7 +124,7 @@ public class EspetaculosControllerTest {
 		controller.reserva(1234l, 3);
 
 		assertThat(sessao.getIngressosDisponiveis(), is(2));
-	}
+	} 
 	
 	@Test
 	public void temporadaInicioIgualFimDiaria() {
@@ -183,7 +183,7 @@ public class EspetaculosControllerTest {
 		assertEquals(5, sessoes.size());
 	}
 	
-	@Test
+
 	public void temporadaInicioFimSemanal() {
 		Espetaculo espetaculo = new Espetaculo();
 		espetaculo.setTipo(TipoDeEspetaculo.TEATRO);
