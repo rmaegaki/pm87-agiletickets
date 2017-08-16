@@ -7,6 +7,7 @@ import javax.validation.constraints.AssertTrue;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+import org.joda.time.Weeks;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -198,7 +199,26 @@ public class EspetaculosControllerTest {
 		
 		List<Sessao> sessoes = espetaculo.criaSessoes(diaInicio, diaFim, horario,  Periodicidade.SEMANAL);
 		
-		assertEquals(2, sessoes.size());
+		assertEquals(Weeks.weeksBetween(diaInicio, diaFim).getWeeks(), sessoes.size());
+	}
+	
+	@Test
+	public void temporadaFimAnteriorInicio() {
+		Espetaculo espetaculo = new Espetaculo();
+		espetaculo.setTipo(TipoDeEspetaculo.TEATRO);
+
+		Sessao sessao = new Sessao();
+		sessao.setPreco(new BigDecimal("10.00"));
+		sessao.setTotalIngressos(5);
+		sessao.setEspetaculo(espetaculo);
+		
+		LocalDate diaInicio = new LocalDate();
+		LocalDate diaFim = diaInicio.plusDays(15);
+		LocalTime horario = new LocalTime();
+		
+		List<Sessao> sessoes = espetaculo.criaSessoes(diaFim, diaInicio, horario,  Periodicidade.SEMANAL);
+		
+		assertNull(sessoes);
 	}
 	
 	
