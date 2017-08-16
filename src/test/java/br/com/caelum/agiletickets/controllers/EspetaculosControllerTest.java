@@ -174,12 +174,37 @@ public class EspetaculosControllerTest {
 		sessao.setEspetaculo(espetaculo);
 		
 		LocalDate diaInicio = new LocalDate();
-		LocalDate diaFim = diaInicio;
+		LocalDate diaFim = diaInicio.plusDays(5);
 		LocalTime horario = new LocalTime();
 		
 		List<Sessao> sessoes = espetaculo.criaSessoes(diaInicio, diaFim, horario,  Periodicidade.DIARIA);
 		
-		assertEquals(1, sessoes.size());
+		assertEquals(5, sessoes.size());
 	}
+	
+	@Test
+	public void temporadaInicioFimSemanal() {
+		Espetaculo espetaculo = new Espetaculo();
+		espetaculo.setTipo(TipoDeEspetaculo.TEATRO);
 
+		Sessao sessao = new Sessao();
+		sessao.setPreco(new BigDecimal("10.00"));
+		sessao.setTotalIngressos(5);
+		sessao.setEspetaculo(espetaculo);
+		
+		LocalDate diaInicio = new LocalDate();
+		LocalDate diaFim = diaInicio.plusDays(15);
+		LocalTime horario = new LocalTime();
+		
+		List<Sessao> sessoes = espetaculo.criaSessoes(diaInicio, diaFim, horario,  Periodicidade.SEMANAL);
+		
+		assertEquals(2, sessoes.size());
+	}
+	
+	
+
+	
+	
+	
+	
 }

@@ -100,9 +100,24 @@ public class Espetaculo {
 	public List<Sessao> criaSessoes(LocalDate inicio, LocalDate fim, LocalTime horario, Periodicidade periodicidade) {
 		List<Sessao> criaSessoes = new ArrayList<Sessao>();
 		Sessao sessao = new Sessao();
+		LocalDate data;
 		if(inicio == fim) {
 			sessao.setInicio(inicio.toDateTime(horario));
 			criaSessoes.add(sessao);
+		}
+		else {
+			if (periodicidade == Periodicidade.DIARIA) {
+				for (data = inicio; data.isBefore(fim) ; data = data.plusDays(1)) {
+					sessao.setInicio(data.toDateTime(horario));
+					criaSessoes.add(sessao);
+				}
+			}
+			else if (periodicidade == Periodicidade.SEMANAL) {
+				for (data = inicio; data.isBefore(fim.plusDays(1)) ; data = data.plusDays(7)) {
+					sessao.setInicio(data.toDateTime(horario));
+					criaSessoes.add(sessao);
+				}
+			}
 		}
 		
 		return criaSessoes;
