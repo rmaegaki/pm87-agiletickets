@@ -2,7 +2,7 @@
 
 	<property file="build.properties" />
 	
-	<property name="persistence" value="persistence.xml">
+	<property name="persistence" value="persistence-prod.xml">
 		
 	</property>
 	
